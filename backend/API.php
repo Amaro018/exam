@@ -2,7 +2,7 @@
 <?php
 require_once('MysqliDb.php');
 
-header("Access-Control-Allow-Origin: http://localhost:8080");
+header("Access-Control-Allow-Origin: *");
 
 /**
  * Tells browsers whether to expose the response to the frontend JavaScript code
@@ -31,10 +31,17 @@ class API {
 
     public function httpGet($payload)
       {
-          $result = $this->db->get('tasks'); // Assuming 'tasks' is your table name
+    // Fetch tasks
+    $tasks = $this->db->get('tasks');
+    
+    // Fetch task items for each task
+    foreach ($tasks as &$task) {
+        $this->db->where('task_id', $task['id']);
+        $task['task_items'] = $this->db->get('task_items');
+    }
 
     // Return the results as JSON
-    echo json_encode($result);
+    echo json_encode($tasks);
           
       }
 
@@ -70,10 +77,21 @@ class API {
       }
 
 
-      public function httpPut($id, $payload)
-      {
-          // Start coding HERE!!
-      }
+      public function httpPut($id,$payload) {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $taskId = $input['task_id'] ?? null;
+        $status = $input['status'] ?? null;
+    
+        if ($taskId && $status) {
+            $this->db->where('id', $id)->update('task_items', $payload);
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid parameters']);
+        }
+    }
+    
+    
+    
 
       public function httpDelete($id, $payload)
       {
