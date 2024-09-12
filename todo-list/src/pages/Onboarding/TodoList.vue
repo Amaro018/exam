@@ -33,13 +33,18 @@
           >
             <q-expansion-item expand-separator :label="todo.taskTitle">
 
-              <template v-slot:header="{ expanded }">
+
+
+              <template v-slot:header="{ expanded }" >
                 <q-item-section
                   v-if="!expanded"
                   class="onboarding-text-accent-0 text-semibold"
                 >
-                
+                <div>
+
                   {{ todo.taskTitle }}
+                </div>
+
                 </q-item-section>
                 <q-item-section
                   v-if="!expanded"
@@ -51,8 +56,47 @@
                 <q-item-section v-else class="onboarding-text-accent-0 text-semibold">
                   {{ todo.taskTitle }}
                 </q-item-section>
-                <q-item-section v-if="expanded" side>
-                  <q-icon />
+                <q-item-section v-if="expanded" side @click.stop>
+                  <q-btn
+                    flat
+                    round
+                    icon="more_horiz"
+                    color="blue-9"
+                    @click="toggleMenu(index)"
+                  >
+                
+                  <q-menu
+                     
+                      auto-close
+                      anchor="bottom right"
+                      self="top right"
+                      style="width: 11%"
+                      class="onboarding-border-accent-0"
+                    >
+                      <div class="edit">
+                        <q-item
+                          class="select-list onboarding-bg-hover-accent-0"
+                          clickable
+                          v-close-popup
+                          
+                        >
+                          <q-item-section>Edit</q-item-section>
+                        </q-item>
+                      </div>
+                      <div class="delete">
+                        <q-item
+                          class="select-list onboarding-bg-hover-accent-0"
+                          clickable
+                          v-close-popup
+                        
+                        >
+                          <q-item-section>Delete</q-item-section>
+                        </q-item>
+                      </div>
+                    </q-menu>
+                
+                
+                </q-btn>
                 </q-item-section>
               </template>
 
@@ -82,7 +126,7 @@
 
         <div class="col-6">
           <div
-            class="in-progress onboarding-bg-accent-0 text-center text-white text-bold q-pt-xs q-mb-xs"
+            class="Done onboarding-bg-accent-0 text-center text-white text-bold q-pt-xs q-mb-xs"
           >
             Done
           </div>
@@ -111,7 +155,7 @@
                   {{ todo.taskTitle }}
                 </q-item-section>
                 <q-item-section v-if="expanded" side>
-                  <q-icon name="more_horiz" />
+                  <!-- <q-icon name="more_horiz" /> -->
                 </q-item-section>
               </template>
 
