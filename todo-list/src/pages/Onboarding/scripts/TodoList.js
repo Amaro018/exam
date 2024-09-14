@@ -43,21 +43,26 @@ export default {
     async updateTaskStatus(taskItem) {
       try {
         const response = await axios.put(`http://localhost/exam/backend/API.php/${taskItem.id}`, {
-          task_id: taskItem.id,
+          id: taskItem.id,
           status: taskItem.status
           
         });
+       
         this.showNotify(true);
         console.log(response.data);
       } catch (error) {
         console.error('Error updating task status:', error);
         this.showNotify(false);
       }
+      
     },
   
     onStatusChange(taskItem, isChecked) {
       // Update status based on checkbox value
       taskItem.status = isChecked ? 'completed' : 'pending';
+      
+      const newStatus = taskItem.status;
+      console.log(newStatus);
       // Update the status in the backend
 
 

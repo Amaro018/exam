@@ -36,7 +36,7 @@ class API {
     
     // Fetch task items for each task
     foreach ($tasks as &$task) {
-        $this->db->where('task_id', $task['id']);
+        $this->db->where('id', $task['id']);
         $task['task_items'] = $this->db->get('task_items');
     }
 
@@ -64,9 +64,9 @@ class API {
                     'taskName' => $task['taskName'],
                     'taskTime' => $task['taskTime'],
                     'status' => $task['status'],
-                    'task_id' => $task_id
+                    'id' => $task_id
                 ];
-    
+                echo json_encode($task_id);
                 $this->db->insert('task_items', $taskItem);
             }
     
@@ -79,7 +79,7 @@ class API {
 
       public function httpPut($id,$payload) {
         $input = json_decode(file_get_contents('php://input'), true);
-        $taskId = $input['task_id'] ?? null;
+        $taskId = $input['id'] ?? null;
         $status = $input['status'] ?? null;
     
         if ($taskId && $status) {
