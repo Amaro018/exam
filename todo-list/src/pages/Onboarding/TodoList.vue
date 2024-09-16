@@ -18,8 +18,8 @@
         />
       </div>
 
-      <div class="row q-pt-lg q-pr-lg">
-        <div class="col-6">
+      <div class="row q-pt-lg q-pr-lg" style="display: flex;">
+        <div class="col-6" style="display: flex; flex-direction: column;">
           <div
             class="in-progress onboarding-bg-accent-0 text-center text-white text-bold q-pt-xs q-mb-xs"
           >
@@ -30,8 +30,9 @@
             class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mr-md q-mb-md"
             v-for="(todo, index) in todoList"
             :key="index"
+            style="flex-grow: 1;"
           >
-            <q-expansion-item expand-separator :label="todo.taskTitle">
+            <q-expansion-item expand-separator :label="todo.taskTitle" @click = openExpansion()>
 
 
 
@@ -62,11 +63,11 @@
                     round
                     icon="more_horiz"
                     color="blue-9"
-                    @click="toggleMenu(index)"
+
                   >
-                
+
                   <q-menu
-                     
+
                       auto-close
                       anchor="bottom right"
                       self="top right"
@@ -78,7 +79,7 @@
                           class="select-list onboarding-bg-hover-accent-0"
                           clickable
                           v-close-popup
-                          
+                            @click="updateList(todo.id)"
                         >
                           <q-item-section>Edit</q-item-section>
                         </q-item>
@@ -88,14 +89,18 @@
                           class="select-list onboarding-bg-hover-accent-0"
                           clickable
                           v-close-popup
-                        
+                          @click=showDeleteDialog(todo.id)
                         >
-                          <q-item-section>Delete</q-item-section>
+                          <q-button >Delete</q-button >
                         </q-item>
+
+
                       </div>
+
+
                     </q-menu>
-                
-                
+
+
                 </q-btn>
                 </q-item-section>
               </template>
@@ -108,10 +113,10 @@
                 >
                   <q-item-section>
                     <q-checkbox
-                      :model-value="taskItem.status === 'completed'"
+                    :model-value="taskItem.status === 'completed'"
                       :label="taskItem.taskName"
                       color="blue-9"
-                      @update:model-value="(value) => onStatusChange(taskItem, value)"
+                      @update:model-value="onStatusChange(taskItem)"
                     />
                   </q-item-section>
                   <q-item-section>{{ taskItem.taskTime }}</q-item-section>
@@ -124,7 +129,7 @@
           </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-6" style="display: flex; flex-direction: column;">
           <div
             class="Done onboarding-bg-accent-0 text-center text-white text-bold q-pt-xs q-mb-xs"
           >
@@ -135,6 +140,7 @@
             class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mr-md q-mb-md"
             v-for="(todo, index) in doneList"
             :key="index"
+            style="flex-grow: 1;"
           >
             <q-expansion-item expand-separator :label="todo.taskTitle">
               <template v-slot:header="{ expanded }">
@@ -167,7 +173,7 @@
                 >
                   <q-item-section>
                     <q-checkbox
-                      :model-value="taskItem.status === 'completed'"
+                      :model-value="taskItem.status === 'pending'"
                       :label="taskItem.taskName"
                       color="blue-9"
                       @update:model-value="onStatusChange(taskItem)"
@@ -176,14 +182,16 @@
                   <q-item-section>{{ taskItem.taskTime }}</q-item-section>
                 </q-item>
               </q-list>
-              <div class="flex justify-end onboarding-text-accent-0 text-semibold">
+              <div class="flex flex-grow justify-end items-end onboarding-text-accent-0 text-semibold">
                 {{ new Date(todo.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) }}
               </div>
             </q-expansion-item>
           </div>
         </div>
+        <MainDialog :content="$options.components.DeleteModal" />
       </div>
     </div>
+
   </transition>
 </template>
 

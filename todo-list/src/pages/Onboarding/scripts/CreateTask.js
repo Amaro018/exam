@@ -22,6 +22,7 @@ export default {
     
     addTodo() {
       this.form.push({ task_name: '', time: '' });
+      console.log(this.form);
     },
     removeTodo(index) {
       this.form.splice(index, 1);
