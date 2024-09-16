@@ -32,7 +32,7 @@
             :key="index"
             style="flex-grow: 1;"
           >
-            <q-expansion-item expand-separator :label="todo.taskTitle">
+            <q-expansion-item expand-separator :label="todo.taskTitle" @click = openExpansion()>
 
 
 
@@ -63,11 +63,11 @@
                     round
                     icon="more_horiz"
                     color="blue-9"
-                    @click="toggleMenu(index)"
+
                   >
-                
+
                   <q-menu
-                     
+
                       auto-close
                       anchor="bottom right"
                       self="top right"
@@ -79,7 +79,7 @@
                           class="select-list onboarding-bg-hover-accent-0"
                           clickable
                           v-close-popup
-                          
+                            @click="updateList(todo.id)"
                         >
                           <q-item-section>Edit</q-item-section>
                         </q-item>
@@ -89,14 +89,18 @@
                           class="select-list onboarding-bg-hover-accent-0"
                           clickable
                           v-close-popup
-                        
+                          @click=showDeleteDialog(todo.id)
                         >
-                          <q-item-section>Delete</q-item-section>
+                          <q-button >Delete</q-button >
                         </q-item>
+
+
                       </div>
+
+
                     </q-menu>
-                
-                
+
+
                 </q-btn>
                 </q-item-section>
               </template>
@@ -109,10 +113,10 @@
                 >
                   <q-item-section>
                     <q-checkbox
-                      
+                    :model-value="taskItem.status === 'completed'"
                       :label="taskItem.taskName"
                       color="blue-9"
-                      @onClick="onStatusChange(taskItem)"
+                      @update:model-value="onStatusChange(taskItem)"
                     />
                   </q-item-section>
                   <q-item-section>{{ taskItem.taskTime }}</q-item-section>
@@ -136,7 +140,7 @@
             class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mr-md q-mb-md"
             v-for="(todo, index) in doneList"
             :key="index"
-            style="flex-grow: 1;" 
+            style="flex-grow: 1;"
           >
             <q-expansion-item expand-separator :label="todo.taskTitle">
               <template v-slot:header="{ expanded }">
@@ -184,8 +188,10 @@
             </q-expansion-item>
           </div>
         </div>
+        <MainDialog :content="$options.components.DeleteModal" />
       </div>
     </div>
+
   </transition>
 </template>
 

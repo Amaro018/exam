@@ -67,6 +67,11 @@ const routes = [
             name: "create-new",
             component: () => import("../pages/Onboarding/CreateNew.vue"),
           },
+          {
+            path: '/update-list/:id',
+            name: "update-list",
+            component: () => import("../pages/Onboarding/UpdateList.vue"),
+          },
         ],
       },
     ],
