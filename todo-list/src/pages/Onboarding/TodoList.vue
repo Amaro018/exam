@@ -32,9 +32,7 @@
             :key="index"
             style="flex-grow: 1;"
           >
-            <q-expansion-item expand-separator :label="todo.taskTitle" @click = openExpansion()>
-
-
+            <q-expansion-item expand-separator :label="todo.taskTitle" >
 
               <template v-slot:header="{ expanded }" >
                 <q-item-section
@@ -142,7 +140,7 @@
             :key="index"
             style="flex-grow: 1;"
           >
-            <q-expansion-item expand-separator :label="todo.taskTitle">
+            <q-expansion-item expand-separator :label="todo.taskTitle" >
               <template v-slot:header="{ expanded }">
                 <q-item-section
                   v-if="!expanded"

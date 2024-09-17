@@ -18,8 +18,8 @@ export default {
       todoList: [],
       doneList: [],
       pageLoadingState: true,
-      isDeleteModalVisible: false, // Controls the modal visibility
-      selectedTodoId: null, // Holds the ID of the todo to be deleted
+      isDeleteModalVisible: false,
+      selectedTodoId: null,
 
     };
   },
@@ -39,17 +39,17 @@ export default {
   methods: {
 
     updateList(todoId) {
-      // Call the method to update the list (or perform any other action)
+
       console.log('Updating list for Todo ID:', todoId);
 
-      // Navigate to the 'update-list' route
+
       this.$router.push({ name: 'update-list', params: { id: todoId } });
     },
 
     showDeleteDialog(todoId){
       ToggleMainDialogState();
       this.selectedTodoId = todoId;
-      // this.selectedTodoId = todoId;
+
       console.log("Todo ID to delete: ", todoId)
     },
 
@@ -57,21 +57,21 @@ export default {
       if (acceptDelete) {
         try {
           console.log("Deleting todo with ID:", this.selectedTodoId);
-          // Make DELETE request to the backend API with the selectedTodoId
+
           const response = await axios.delete(`http://localhost/exam/backend/API.php/${this.selectedTodoId}`);
 
           // Check if the delete was successful
           if (response.status === 200) {
             console.log("Todo successfully deleted:", response.data);
-            this.fetchTodoList(); // Refresh the todo list to reflect changes
-            this.showNotifyDelete(true); // Show success notification
+            this.fetchTodoList();
+            this.showNotifyDelete(true);
           } else {
             console.log("Failed to delete Todo");
-            this.showNotifyDelete(false); // Show failure notification
+            this.showNotifyDelete(false);
           }
         } catch (error) {
           console.error("Error deleting Todo:", error);
-          this.showNotifyDelete(false); // Show failure notification
+          this.showNotifyDelete(false);
         }
       }
     },
@@ -134,18 +134,16 @@ export default {
     },
 
     onStatusChange(taskItem) {
-      // Update status based on checkbox value
+
       if(taskItem.status === "pending"){
         taskItem.status = "completed"
       }
       else if(taskItem.status === "completed"){
         taskItem.status = "pending"
       }
-      // Update the status in the backend
+
       this.updateTaskStatus(taskItem);
     },
-
-
   },
 
 };

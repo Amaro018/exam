@@ -73,6 +73,7 @@ export default {
 
     removeTodo(index) {
       this.form.splice(index, 1);
+      console.log(index + " removed this task_items");
     },
 
     setTimePopup(index) {
